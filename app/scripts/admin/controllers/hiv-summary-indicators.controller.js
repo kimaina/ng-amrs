@@ -69,6 +69,7 @@
     function onFetchHivSummaryIndicatorsSuccess(result) {
       $scope.isBusy = false;
       $scope.defaultIndicators = result.result;
+      console.log("Sql query for HivSummaryIndicators request=======>", result.sql, result.sqlParams);
       if($scope.defaultIndicators)$scope.indicators=$scope.defaultIndicators.slice(0, 6);
       //Select default indicator tags if not set
       if(!$scope.selectedIndicatorTags.indicatorTags.length)
@@ -120,7 +121,6 @@
     }
 
     function onSelectedIndicatorTagChanged(tag) {
-      console.log('hey the indicator tag that has been selected:',  $scope.selectedIndicatorTags, tag);
       filterIndicators();
     }
 
@@ -142,7 +142,6 @@
         });
         $scope.indicators.push(result);
       });
-      console.log('Filtered Report Indicator is:', $scope.indicators);
     }
 
     function getIndicatorLabelByName(name) {

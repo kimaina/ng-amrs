@@ -77,6 +77,7 @@ jshint -W003, -W026
 
         function onFetchPatientsListSuccess(patients) {
              $scope.isBusy = false;
+              console.log("Sql query for PatientList request=======>", patients.sql, patients.sqlParams);
             $scope.patients = PatientEtlModel.toArrayOfModels(patients.result);
         }
 

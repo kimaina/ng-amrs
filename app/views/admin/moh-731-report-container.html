@@ -1,0 +1,100 @@
+
+<moh731-report-filters enabled-controls="'start-date, end-date'"  start-date="startDate" end-date="endDate" >
+    
+</moh731-report-filters>
+
+<br>
+<div  class="well" style="padding:2px; margin-bottom: 5px !important; ">
+    <div style="cursor: pointer;" class="alert alert-danger" ng-click="getReportData()" ng-show='experiencedLoadingErrors' >
+        <span class="glyphicon glyphicon-exclamation-sign">
+            <button ng-disabled="!enableSubmitButton" class="btn btn-info pull-right" style="padding: 2px!important;" ng-click="getReportData()">
+                <span class="glyphicon glyphicon-refresh"></span>
+                <span>Re-Load</span>
+            </button>
+    </div>
+
+
+
+    <div style="height: 35px" ng-show='!isBusy&&!experiencedLoadingErrors'>
+        <button ng-disabled="!enableSubmitButton" class="btn btn-info pull-right" ng-click="getReportData()">
+            <span class="glyphicon glyphicon-refresh"></span>
+            <span>Fetch Report</span>
+        </button>
+    </div>
+    <div  ng-show='isBusy'>
+        <img ng-show="isBusy" src="images/ajax-loader.gif" autofocus />
+        <b> Fetch Report, Please wait...</b>
+    </div>
+</div>
+
+<div collapse="!reportGeneration"  class="well" style="padding:4px; margin-bottom: 0px !important; width:inherit">
+    <!--Pivot Table Visualization -->
+    <div data-ng-hide="!moh731ReportData.length">
+        <style>
+    .hvalue{
+        border-style: solid;
+        border-width: 1px;
+        border-top-color: black;
+        border-bottom-color: black;
+        border-right-color: black;
+        font-size:10px;
+
+
+    }
+    .dvalue{
+        border-style: solid;
+        border-width: 1px;
+        border-top-color: black;
+        border-right-style:none;
+        border-bottom-color: black;
+        font-size:10px;
+        vertical-align:bottom;
+
+    }
+    .report-section{
+        border: solid 1px black;
+        margin-bottom: 10px;
+    }
+    .report-header-title{
+        font-size: 10px;
+    }
+    .report-section{
+        border-left-color: black;
+        border-right-color:black;
+        border-bottom-color: black;
+    }
+
+</style>
+<!--MOH 731 Report Html Table-->
+<div class="row" style="border-color:black;border-style: solid">
+   
+    <div class="col-xs-12 col-md-12 report-section">
+        <div ng-repeat="(key,value) in reportData">
+        <div><b>{{key}}</b></div>       
+        <div class="row report-section">
+            <div class="col-xs-12" ng-repeat="entryRow in value">
+                <div class="row">
+                    <div class="col-xs-4 report-header-title">Data Element</div>
+                    <div class="col-xs-2 hvalue">HV01-02</div>
+                    <div class="col-xs-2 dvalue">898</div>
+                    <div class="col-xs-2 hvalue">HV01-02</div>
+                    <div class="col-xs-2 dvalue">898</div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>  
+</div>
+<!--End MOH 731 Report Html Table-->
+
+    </div>
+    <div data-ng-show="!moh731ReportData.length" style="cursor: pointer;" class="alert alert-danger" ng-click="getReportData()" ng-show='experiencedLoadingErrors' >
+        <span class="glyphicon glyphicon-exclamation-sign">
+        </span>No Data Found.Change your search parameters and try again.</b>
+    </div>
+
+    <!-- END OF Pivot Table Visualization -->
+    <hr style="margin: 4px;" />
+
+</div>

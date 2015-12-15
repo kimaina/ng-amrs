@@ -17,6 +17,79 @@
         var serviceDefinition;
         var startDate=new Date();
         var endDate=new Date();
+        var reportSections=[
+            ['HIV Exposed Infant (within 2 months)',
+                'HIV Exposed Infant (Eligible for CTX 2 months)',
+                'On CTX Below 15 yrs',
+                'On CTX 15 yrs and Older',
+                'Total on CTX (Sum HV03-03 TO HV03-06)'],['Enrolled in Care',
+                'Enrolled in care Below 1yr',
+                'Enrolled in care Below 15yrs',
+                'Enrolled in care 15yrs & Older',
+                'Enrolled in care - Total (Sum HV03-09 to HV03-12)'],
+            ['3.3 Currently in Care -(from the total sheet-this month only and from last 2 months)',
+                'Currently in care Below 1yr',
+                'Currently in care Below 15yrs','Currently in care 15yrs and older',
+                'Currently in Care-Total (Sum HV03-15 to HV03-18)'],
+            ['3.4 Starting ART','Starting ART -Below 1yr','Starting ART -Below 15yrs'
+                        ,'Starting ART -15yr and Older','Starting on ART -Total (Sum HV03-21 to HV03-24)',
+                'Starting -Preganant','Starting -TB Patient'],
+            ['3.5 Revisits on ART (from the tallay sheet -this month only and from last 2 months)',
+                'Revisit on ART -Below 1yr','Revisit on ART -Below 15yrs',
+                'Revisit on ART -15yrs and older','Total Revisit on ART (Sum HV03-29 to HV03-32)'],
+            ['3.6 Currently on ART [ALL] - (Add 3.4 and 3.5 e.g HV03-34=HV03-20+HV03-28)'
+                        ,'Currently on ART - Below 1yr','Currently on ART - Below 15 yrs','Currently on ART -15yr and older',
+                'Total currently on ART (Sum HV03-35 to HV03-38)']
+                    ,['3.7 Cumulative Ever on ART',
+                        'Ever on ART - Below 15yrs',
+                        'Ever on ART - 15yrs & older','Total Ever on ART (Sum HV03-40 to HV03-43)'],
+            ['3.8 Survival and Retention on ART at 12 months',
+                'ART Net Cohort at 12 months','On Original 1st Line at 12 months',
+                'On alternative 1st Line at 12 months',
+                'On 2nd Line (or higher) at 12 months','Total on therapy at 12 months (Sum HV03-46 to HV03-48)'
+            ],['3.9 Screening','Screened for TB -Below 15yrs',
+                'Screened for TB -15yrs & older',
+                'Total Screened for TB (Sum HV03-50 to HV03-53)',
+                'Screened for cervical cancer (F 18 years and older)'],
+            ['3.10 Prevention with Positives','Modern contraceptive methods','Provided with condoms'],
+            ['3.11 HIV Care Visits','Females (18 years and older','Scheduled','unscheduled','Total HIV Care visit']];
+        var reportSectionsKeys=[
+            ['HIV Exposed Infant (within 2 months)',
+                'HIV Exposed Infant (Eligible for CTX 2 months)',
+                'On CTX Below 15 yrs',
+                'On CTX 15 yrs and Older',
+                'Total on CTX (Sum HV03-03 TO HV03-06)']
+                    ,['Enrolled in Care',
+                        'Enrolled in care Below 1yr',
+                        'Enrolled in care Below 15yrs',
+                        'Enrolled in care 15yrs & Older',
+                        'Enrolled in care - Total (Sum HV03-09 to HV03-12)'],
+            ['3.3 Currently in Care -(from the total sheet-this month only and from last 2 months)',
+                'Currently in care Below 1yr',
+                'Currently in care Below 15yrs','Currently in care 15yrs and older',
+                'Currently in Care-Total (Sum HV03-15 to HV03-18)'],
+            ['3.4 Starting ART','Starting ART -Below 1yr','Starting ART -Below 15yrs'
+                        ,'Starting ART -15yr and Older','Starting on ART -Total (Sum HV03-21 to HV03-24)',
+                'Starting -Preganant','Starting -TB Patient'],
+            ['3.5 Revisits on ART (from the tallay sheet -this month only and from last 2 months)',
+                'Revisit on ART -Below 1yr','Revisit on ART -Below 15yrs',
+                'Revisit on ART -15yrs and older','Total Revisit on ART (Sum HV03-29 to HV03-32)'],
+            ['3.6 Currently on ART [ALL] - (Add 3.4 and 3.5 e.g HV03-34=HV03-20+HV03-28)'
+                        ,'Currently on ART - Below 1yr','Currently on ART - Below 15 yrs','Currently on ART -15yr and older',
+                'Total currently on ART (Sum HV03-35 to HV03-38)']
+                    ,['3.7 Cumulative Ever on ART',
+                        'Ever on ART - Below 15yrs',
+                        'Ever on ART - 15yrs & older','Total Ever on ART (Sum HV03-40 to HV03-43)'],
+            ['3.8 Survival and Retention on ART at 12 months',
+                'ART Net Cohort at 12 months','On Original 1st Line at 12 months',
+                'On alternative 1st Line at 12 months',
+                'On 2nd Line (or higher) at 12 months','Total on therapy at 12 months (Sum HV03-46 to HV03-48)'
+            ],['3.9 Screening','Screened for TB -Below 15yrs',
+                'Screened for TB -15yrs & older',
+                'Total Screened for TB (Sum HV03-50 to HV03-53)',
+                'Screened for cervical cancer (F 18 years and older)'],
+            ['3.10 Prevention with Positives','Modern contraceptive methods','condoms_provided'],
+            ['3.11 HIV Care Visits','Females (18 years and older','Scheduled','unscheduled','Total HIV Care visit']];
 
         serviceDefinition={
             getReportSchema:getReportSchema,
@@ -164,6 +237,157 @@
         }
         function isSetUp(){
             return setUp;
+        }
+
+        function generateReportSchema(params){
+            params={facilityName:'GK Dispensary Eldoret',
+                district:params.district,
+                county:"county",
+                facility:'facility',month:'month',year:'year'};
+            return genericPdfJson={
+                content:[
+                    {
+                        text:params.facilityName,
+                        style:'header',
+                        alignment:'center'
+                    },
+                    {
+                        stack:[
+                            'National Aids And STI Controll Program',
+                            {text:'MOH-731 Comprehensive hiv/aids Facility Report Form',style:'subheader'},
+                        ],
+                        style:'subheader'
+                    },
+                    {
+                        columns:[
+                            {
+                                width:'*',
+                                text:'District:'+params.district
+                            },
+                            {
+                                width:'*',
+                                text:'County:'+params.county
+                            },
+                            {
+                                width:'*',
+                                text:'Facility:'+params.facility
+                            },
+                            {
+                                width:'*',
+                                text:[
+                                    {text:'Month:'+params.month,alignment:'left'},
+                                    {text:'Year:'+params.year,alignment:'right'}
+
+                                ]
+                            },
+                        ]
+                    },
+                    {},
+                    {
+                        style:'tableExample',
+                        table:{
+                            widths:[150,10,10,10,'*'],
+                            body:[
+                                [{text:'Column1',style:'sectionhead'},'','','',''],
+                                [
+                                    {
+                                        table:{
+                                            widths:['*'],
+                                            body:[
+                                                ['Enrolled In care '],
+                                                ['Starting  on  phph']
+                                            ]
+                                        }
+                                    },
+                                    {text:''
+                                    },
+                                    {text:''
+                                    },
+                                    {text:''
+                                    },
+                                    [
+                                        {table:{
+                                                widths:[50,'*'],
+                                                body:[
+                                                    ['HIV03','2'],
+                                                    ['HIV03','2']
+                                                ]
+                                            },
+                                        }
+                                    ]
+                                ]
+                            ]
+                        }
+                    }
+                ],
+                styles:{
+                    header:{
+                        fontSize:18,
+                        bold:true,
+                        margin:[0,0,0,10]
+                    },
+                    subheader:{
+                        fontSize:16,
+                        bold:true,
+                        margin:[0,10,0,5]
+                    },
+                    tableExample:{
+                        margin:[0,5,0,15]
+                    },
+                    sectionhead:{
+                        background:'yellow',
+                        fontSize:17,
+                        bold:true,
+                    },
+                    tableHeader:{
+                        bold:true,
+                        fontSize:13,
+                        color:'black'
+                    }
+                },
+                defaultStyle:{
+                    alignment:'justify'
+                }
+
+            };
+
+        }
+        function generateReportSection(sectionData){
+            var sectionData={
+                sectionHead:"Section Head",sectionLabels:[
+                    ['Enrolled In care '],
+                    ['Starting  on  phph']
+                ],sectionDataValues:[['HIV03','2'],
+                    ['HIV03','2']]};
+            return {
+                table:{
+                    widths:[150,10,10,10,'*'],
+                    body:[
+                        [{text:sectionData.sectionHead,style:'sectionhead'},'','','',''],
+                        [
+                            {
+                                table:{
+                                    widths:['*'],
+                                    body:sectionData.sectionLabels
+                                }
+                            },
+                            {text:''
+                            },
+                            {text:''
+                            },
+                            {text:''
+                            },
+                            [
+                                {table:{
+                                        widths:[50,'*'],
+                                        body:sectionData.sectionDataValues
+                                    },
+                                }
+                            ]
+                        ]
+                    ]
+                }
+            };
         }
 
     }

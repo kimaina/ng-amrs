@@ -309,7 +309,7 @@
 
 
         function getHivSummaryIndicators(startDate,endDate,report,countBy,successCallback,failedCallback,startIndex,limit){
-            var resource=getResource('hiv-summary-indicators');
+            var resource=getResource('get-report-by-report-name');
             var params={endDate:endDate,report:report,countBy:countBy,startDate:startDate};
 
             if(startIndex!==undefined){
@@ -527,7 +527,7 @@
 
 
         function getMoh731Report(report,startDate,endDate,locations,countBy,successCallback,failedCallback){
-            var resource=getResource('hiv-summary-indicators');
+            var resource=getResource('get-report-by-report-name');
             var params={startDate:startDate,endDate:endDate,locations:locations.toString(),countBy:countBy,report:report};
             return resource.get(params).$promise
                     .then(function(response){

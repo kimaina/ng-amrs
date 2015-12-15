@@ -76,7 +76,8 @@
         function getLocationByUuidFromEtlOrCatch(uuid, checkCache, successCallback, failedCallback) {
             if (checkCache === true) {
                 CachedDataService.getCachedEtlLocationsByUuid(uuid, function (success) {
-                    if (success.length === 0) {
+                    if (success.length === 0) 
+                    {
                         var resource = getResourceFromEtl();
                         return resource.get({uuid: uuid}).$promise
                                 .then(function (response) {
@@ -84,9 +85,23 @@
                                     if (angular.isUndefined($rootScope.cachedEtlLocations)) {
                                         $rootScope.cachedEtlLocations ={};
                                     }
+                                    console.log("The result in  getlocation from etl",response.result);
                                     angular.forEach(response.result, function (value, key) {
+                                      console.log("about to add location  to  catch")
                                         $rootScope.cachedEtlLocations[uuid]=value;
                                     });
+                                   /**
+                                    * A hack for situations that location id 
+                                    * cannot  be  resolved  from   location uuid
+                                    * by  the  etl  server.This  is a  sign  of  major 
+                                    * error
+                                    * 
+                                    */
+                                   if(response.result.length===0){
+                                       if(angular.isDefined($rootScope.dummyLocationid)){$rootScope.dummyLocationid=$rootScope.dummyLocationid+1;}else{$rootScope.dummyLocationid=101;}
+                                      console.log("Loading  dummy  data Location Id",$rootScope.dummyLocationid);
+                                        $rootScope.cachedEtlLocations[uuid]={location_id:$rootScope.dummyLocationid};
+                                   }
                                     successCallback(response);
                                 }).catch(function (error) {
                             console.error(error);

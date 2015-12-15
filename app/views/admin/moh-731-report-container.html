@@ -88,6 +88,23 @@
 </div>
 <!--End MOH 731 Report Html Table-->
 
+<!--MOH 731 DataTable -->
+  <!-- DATATABLE -->
+  <div>
+
+    <div id="toolbar">
+      <select ng-model='exportDataType' style="margin-left: 5px" class="form-control"
+        ng-options="l.name for l in exportList" ng-change="updateSelectedType()">
+      </select>
+    </div>
+    <table id="bsTable" class="table table-striped table-condensed table-hover" bs-table-control="bsTableControl" >
+    </table>
+  </div>
+  <!-- END DATATABLE -->
+<!--End  of  MOH DataTable-->
+
+
+
     </div>
     <div data-ng-show="!moh731ReportData.length" style="cursor: pointer;" class="alert alert-danger" ng-click="getReportData()" ng-show='experiencedLoadingErrors' >
         <span class="glyphicon glyphicon-exclamation-sign">

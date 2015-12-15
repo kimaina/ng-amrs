@@ -36,14 +36,14 @@
         $scope.selectAllEncounterTypes=selectAllEncounterTypes;
         $scope.locationSelected=locationSelected;
         $scope.handleSelectAllTongle=handleSelectAllTongle;
-       
+
 
         $scope.providers=[];
         $scope.selectedProvider={};
         $scope.selectedProvider.selected={};
         $scope.findProviders=findProviders;
         $scope.fetchLocations=fetchLocations;
-       
+
         $scope.preLoad=preLoad;
         $scope.findingProvider=false;
         $scope.canView=canView;
@@ -118,7 +118,9 @@
         function wrapLocations(locations){
             var wrappedLocations=[];
             for(var i=0;i<locations.length;i++){
+               console.log("about  to  fetch  locations  id  from  etl>>>>",locations[i].uuid)
                 locationService.getLocationByUuidFromEtlOrCatch(locations[i].uuid,true,function(success){
+               console.log("success",success)
                 },function(error){
                     console.log("error"+error);
                 });
@@ -133,8 +135,8 @@
         function wrapLocation(location){
             return new LocationModel.toWrapper(location);
         }
-         //signifies    location  selection   copleat
-          //set  selected  parameters  to parent  scope
+        //signifies    location  selection   copleat
+        //set  selected  parameters  to parent  scope
         function locationSelected(){
             $scope.$parent.reportGeneratione=false;
             $scope.$parentnoresults=false;
@@ -142,7 +144,7 @@
             if($scope.selectedLocations.selectedAll===true){
                 $scope.$parent.selectedSearchLocations=[];
                 angular.forEach(CachedDataService.getCachedEtlLocations(),function(value,key){
-
+                    console.log(value,"About to  get  location id");
                     $scope.$parent.selectedSearchLocations.push(value.location_id);
                 });
             }else{
@@ -163,8 +165,8 @@
         function handleSelectAllTongle(){
             $scope.selectedLocations.selectedAll=!$scope.selectedLocations.selectedAll;
             locationSelected();
-        }        
-    
+        }
+
 
     }
 

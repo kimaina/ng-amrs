@@ -55,41 +55,41 @@
             ['3.11 HIV Care Visits','Females (18 years and older','Scheduled','unscheduled','Total HIV Care visit']];
         var reportSectionsKeys=[
             ['HIV Exposed Infant (within 2 months)',
-                'HIV Exposed Infant (Eligible for CTX 2 months)',
-                'On CTX Below 15 yrs',
-                'On CTX 15 yrs and Older',
+                'HIV_Exposed_Infant',
+                'On_CTX_Below_15_yrs',
+                'On_CTX_15_yrs_and_Older',
                 'Total on CTX (Sum HV03-03 TO HV03-06)']
                     ,['Enrolled in Care',
-                        'Enrolled in care Below 1yr',
-                        'Enrolled in care Below 15yrs',
-                        'Enrolled in care 15yrs & Older',
-                        'Enrolled in care - Total (Sum HV03-09 to HV03-12)'],
+                        'enrolled_in_care_Below_1yr',
+                        'enrolled_in_care_Below_15yrs',
+                        'enrolled_in_care_15yrs_&_Older',
+                        'enrolled_in_care'],
             ['3.3 Currently in Care -(from the total sheet-this month only and from last 2 months)',
-                'Currently in care Below 1yr',
-                'Currently in care Below 15yrs','Currently in care 15yrs and older',
-                'Currently in Care-Total (Sum HV03-15 to HV03-18)'],
-            ['3.4 Starting ART','Starting ART -Below 1yr','Starting ART -Below 15yrs'
-                        ,'Starting ART -15yr and Older','Starting on ART -Total (Sum HV03-21 to HV03-24)',
+                'on_art_Below_1yr',
+                'on_art_Below_15yrs','on_art_15yrs_and_older',
+                'on_art)'],
+            ['3.4 Starting ART','starting_art_total_Below_1yr','starting_art_total_Below_15yrs'
+                        ,'starting_art_total_15yr_and_Older','starting_art_total',
                 'Starting -Preganant','Starting -TB Patient'],
             ['3.5 Revisits on ART (from the tallay sheet -this month only and from last 2 months)',
-                'Revisit on ART -Below 1yr','Revisit on ART -Below 15yrs',
-                'Revisit on ART -15yrs and older','Total Revisit on ART (Sum HV03-29 to HV03-32)'],
+                'Revisit_on_art_Below_1yr','Revisit_on_art_Below_15yrs',
+                'Revisit_on_ART_15yrs_&_older','total_revisit_on_art'],
             ['3.6 Currently on ART [ALL] - (Add 3.4 and 3.5 e.g HV03-34=HV03-20+HV03-28)'
-                        ,'Currently on ART - Below 1yr','Currently on ART - Below 15 yrs','Currently on ART -15yr and older',
-                'Total currently on ART (Sum HV03-35 to HV03-38)']
+                        ,'on_art_Below_1yr','currently_on_art_Below_15_yrs','currently_on_art_15yr_&_older',
+              'on_art']
                     ,['3.7 Cumulative Ever on ART',
-                        'Ever on ART - Below 15yrs',
-                        'Ever on ART - 15yrs & older','Total Ever on ART (Sum HV03-40 to HV03-43)'],
+                        'on_art_Below_15yrs',
+                        'Ever_on_art_15yrs_&_older','on_art'],
             ['3.8 Survival and Retention on ART at 12 months',
-                'ART Net Cohort at 12 months','On Original 1st Line at 12 months',
-                'On alternative 1st Line at 12 months',
-                'On 2nd Line (or higher) at 12 months','Total on therapy at 12 months (Sum HV03-46 to HV03-48)'
-            ],['3.9 Screening','Screened for TB -Below 15yrs',
-                'Screened for TB -15yrs & older',
-                'Total Screened for TB (Sum HV03-50 to HV03-53)',
-                'Screened for cervical cancer (F 18 years and older)'],
-            ['3.10 Prevention with Positives','Modern contraceptive methods','condoms_provided'],
-            ['3.11 HIV Care Visits','Females (18 years and older','Scheduled','unscheduled','Total HIV Care visit']];
+                'ART_Net_Cohort_at_12 months','On_Original_1st_Line_at_12_months',
+                'On_alternative_1st_Line_at_12_months',
+                'On_2nd_Line_at 12_months','Total_on_therapy_at_12_months'
+            ],['3.9 Screening','Screened_for_TB_Below_15yrs',
+                'Screened_for_TB_15yrs_&_older',
+                'screened_for_tb',
+                'Screened_for_cervical_cance'],
+            ['3.10 Prevention with Positives','using_modern_contracept_methods','condoms_provided'],
+            ['3.11 HIV Care Visits','female_gte_18yo_visits','scheduled_visit','unscheduled_visits','currently_in_care']];
 
         serviceDefinition={
             getReportSchema:getReportSchema,
@@ -142,7 +142,7 @@
             return  indicatorSections[indicatorLabel];
         }
         /**
-         * Method to filter  moh 731 report data to the correct  sections  
+         * Method to filter  moh 731 report data to the correct  sections
          * @param {type} reportData
          * @param {type} reportSchema
          * @returns {undefined}

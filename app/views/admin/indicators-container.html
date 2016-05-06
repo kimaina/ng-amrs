@@ -5,8 +5,9 @@
     </button></a>
 </h2>
 <hr style="margin: 1px;" />
-<report-filters enabled-controls="'start-date, end-date'"  start-date="startDate" end-date="endDate"
-                           report-name="reportName">
+<report-filters enabled-controls="'start-date, end-date,location,indicator'"  start-date="startDate" end-date="endDate"
+                selected-locations="selectedLocations"  selected-indicator-tags="selectedIndicatorTags"
+                report-name="reportName" >
 </report-filters>
 <br>
 <div  class="well" style="padding:2px; margin-bottom: 5px !important; ">
@@ -18,16 +19,27 @@
       <span>Re-Load</span>
     </button>
   </div>
-  <div style="height: 35px" ng-show='!isBusy && !experiencedLoadingErrors'>
-    <button class="btn btn-info pull-right" ng-click="loadHivSummaryIndicators()">
-      <span class="glyphicon glyphicon-refresh"></span>
-      <span>Generate Report</span>
-    </button>
-  </div>
   <div style="cursor: pointer;" class="alert alert-warning" ng-click="loadHivSummaryIndicators()" ng-show='resultIsEmpty' >
         <span class="glyphicon glyphicon-exclamation-sign">
         </span> Empty report data returned. Please check your Report Filters and try again.</b>
   </div>
+  <div style="height: 35px" ng-show='!isBusy && !experiencedLoadingErrors'>
+    <button data-ng-disabled="selectedLocations.locations.length===0 || selectedIndicatorTags.indicatorTags.length===0"
+      class="btn btn-info pull-right" ng-click="loadHivSummaryIndicators()">
+      <span class="glyphicon glyphicon-refresh"></span>
+      <span>Generate Report</span>
+    </button>
+    <div style="margin:2px;" ng-show="selectChart" class="btn-group" dropdown dropdown-append-to-body>
+      <button id="btn-append-to-body" type="button" class="btn btn-primary" dropdown-toggle>
+        Select ChartType <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="btn-append-to-body">
+        <li style="cursor: pointer;" ng-repeat="item in chartType" role="menuitem"><a ng-click="generateChart(item )">{{item.name}} </a></li>
+      </ul>
+
+    </div>
+  </div>
+
   <div  ng-show='isBusy'>
     <img ng-show="isBusy" src="images/ajax-loader.gif" autofocus />
     <b> Generating Indicators, Please wait...</b>
@@ -47,6 +59,15 @@
     <table id="bsTable" class="table table-striped table-condensed table-hover" bs-table-control="bsTableControl" >
     </table>
   </div>
+  <div class="row" >
+    <report-analytics-visualization start-date="startDate" end-date="endDate"
+                                    selected-locations="selectedLocations" is-busy="isBusy" indicators="indicators"
+                                    selected-indicator-tags="selectedIndicatorTags" report-name="reportName"
+                                    chart-filters="chartFilters">
+    </report-analytics-visualization>
+
+  </div>
+
   <!-- END DATATABLE -->
   <hr style="margin: 4px;" />
   <!--<div style="height: 20px">-->

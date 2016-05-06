@@ -33,7 +33,8 @@
         var dataPoint = {};
         dataPoint[xAxis] = data[i][xAxis];
         _.each(chartObject.dataColumns, function (column) {
-          var val=(data[i][column.id]).toFixed(1);
+          var val=(data[i][column.id]);
+            //.toFixed(1);
           plotValues.push(val);
           dataPoint[column.id] =val;
         });

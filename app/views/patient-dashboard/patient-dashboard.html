@@ -54,6 +54,9 @@
 				<li active-tab-sync index="5" data-ng-glick="activeList(this, 5)" ng-class="{active: activeListId === 5}">
 					<a data-target="#tab5" data-toggle="tab"><span class="icon-i-laboratory" aria-hidden="true"></span>&nbsp;Lab Data Summary</a>
 				</li>
+        <li active-tab-sync index="11" data-ng-glick="activeList(this, 11)" ng-class="{active: activeListId === 11}">
+          <a data-target="#tab11" data-toggle="tab"><span class="icon-i-laboratory" aria-hidden="true"></span>&nbsp;EID Lab Data Summary</a>
+        </li>
 				<li active-tab-sync index="6" data-ng-glick="activeList(this, 6)" ng-class="{active: activeListId === 6}">
 					<a data-target="#tab6" data-toggle="tab"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>&nbsp;Current Visit</a>
 				</li>
@@ -83,6 +86,9 @@
 				<li active-tab-sync index="5" data-ng-glick="activeList(this, 5)" ng-class="{active: activeListId === 5}">
 					<a data-target="#tab5" data-toggle="tab"><span class="icon-i-laboratory" aria-hidden="true"></span>&nbsp;Lab Data Summary</a>
 				</li>
+        <li active-tab-sync index="11" data-ng-glick="activeList(this, 11)" ng-class="{active: activeListId === 11}">
+          <a data-target="#tab11" data-toggle="tab"><span class="icon-i-laboratory" aria-hidden="true"></span>&nbsp;EID Lab Data Summary</a>
+        </li>
 				<li active-tab-sync index="6" data-ng-glick="activeList(this, 6)" ng-class="{active: activeListId === 6}">
 					<a data-target="#tab6" data-toggle="tab"><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>&nbsp;Current Visit</a>
 				</li>
@@ -131,6 +137,11 @@
 					<labs-summary patient-uuid="{{patient.uuid()}}" encounters="labTests" is-busy="labTestsIsBusy"></labs-summary>
 				</div>
 			</div>
+      <div class="tab-pane fade in panel panel-default  " style="padding:4px;" id="tab11">
+        <div class="page-content">
+          <eid-lab-tests patient-identifiers="patientIdentifiers"></eid-lab-tests >
+        </div>
+      </div>
 			<div class="tab-pane fade in panel panel-default  " style="padding:4px;" id="tab6">
 				<div class="page-content">
 					<current-visit patient-uuid="{{patient.uuid()}}"></current-visit>

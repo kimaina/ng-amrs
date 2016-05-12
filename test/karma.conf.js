@@ -82,7 +82,8 @@ module.exports = function (config) {
     'bower_components/flot/jquery.flot.js',
     'bower_components/holderjs/holder.js',
     'bower_components/metisMenu/dist/metisMenu.js',
-    'bower_components/raphael/raphael.js',
+    'bower_components/eve/eve.js',
+    'bower_components/raphael/raphael.min.js',
     'bower_components/mocha/mocha.js',
     'bower_components/morrisjs/morris.js',
     'bower_components/datatables-responsive/js/dataTables.responsive.js',
@@ -98,6 +99,7 @@ module.exports = function (config) {
     'bower_components/angular-bar-code-scanner/angular-bar-code-scanner.min.js',
     'bower_components/keen-js/dist/keen.min.js',
     'bower_components/c3-angular/c3-angular.min.js',
+    'bower_components/ng-eid/dist/scripts/ng-eid.js',
     'bower_components/angular-mocks/angular-mocks.js',
     // endbower
       'app/scripts/**/*.module.js',

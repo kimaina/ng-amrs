@@ -41,7 +41,7 @@ jshint -W003, -W026, -W117, -W098
         $scope.visitTypesLoaded = false;
         $scope.formsFilledStatus = [];
 
-        _.each($rootScope.cachedPocForms, function(form)
+        _.each($rootScope.global.cachedPocForms, function(form)
           {
               form.filled=false;
               $scope.formsFilledStatus.push(form)
@@ -64,7 +64,7 @@ jshint -W003, -W026, -W117, -W098
          };
 
          $scope.loadEncounterForm = function(EncounterModel) {
-           $rootScope.activeEncounter = EncounterModel;
+           $rootScope.global.activeEncounter = EncounterModel;
            $location.path('/encounter/' + EncounterModel.uuid() + '/patient/' +
              EncounterModel.patientUuid());
          }

@@ -30,7 +30,7 @@ jshint -W098, -W003, -W068, -W004, -W033, -W030, -W117, -W069, -W106
         var vm = $scope;
 
         //Patient variables
-        vm.patient = $rootScope.broadcastPatient;
+        vm.patient = $rootScope.global.broadcastPatient;
 
         //Form variables
         vm.model = {};
@@ -58,7 +58,7 @@ jshint -W098, -W003, -W068, -W004, -W033, -W030, -W117, -W069, -W106
         //vm.selectedFormMetadata = selectedFormMetadata;
 
         //Loaded encounter/visit variables
-        vm.encounter = $rootScope.activeEncounter;
+        vm.encounter = $rootScope.global.activeEncounter;
         var selectedEncounterUuid = $stateParams.encuuid;
         var currentVisitUuid = $stateParams.visitUuid;
         var selectedEncounterData;
@@ -331,7 +331,7 @@ jshint -W098, -W003, -W068, -W004, -W033, -W030, -W117, -W069, -W106
             vm.changesSaved = true;
             var dlg = dialogs.confirm('Close Form', 'Do you want to close this form?');
             dlg.result.then(function (btn) {
-                $location.path($rootScope.previousState + '/' + $rootScope.previousStateParams.uuid);
+                $location.path($rootScope.global.previousState + '/' + $rootScope.global.previousStateParams.uuid);
             },
 
                 function (btn) {
@@ -505,7 +505,7 @@ jshint -W098, -W003, -W068, -W004, -W033, -W030, -W117, -W069, -W106
 
         function loadPreviousEncounter(callback) {
             var uuid = selectedFormMetadata.encounterTypeUuid;
-            var lastEncounter = $rootScope.latestEncounterPerType[uuid];
+            var lastEncounter = $rootScope.global.latestEncounterPerType[uuid];
             if (lastEncounter === undefined) {
                 callback('No previous encounter');
                 return;
@@ -799,7 +799,7 @@ jshint -W098, -W003, -W068, -W004, -W033, -W030, -W117, -W069, -W106
             if (!experiencedSubmitError()) {
                 vm.formSubmitSuccessMessage = 'Form Submitted successfully';
                 dialogs.notify('Success', vm.formSubmitSuccessMessage);
-                $location.path($rootScope.previousState + '/' + $rootScope.previousStateParams.uuid);
+                $location.path($rootScope.global.previousState + '/' + $rootScope.global.previousStateParams.uuid);
             }
         }
 

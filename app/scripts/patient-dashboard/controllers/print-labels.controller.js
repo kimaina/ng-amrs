@@ -50,7 +50,7 @@
         vm.toggleSettings();
       }
       getPrinters();
-      vm.patient = $rootScope.broadcastPatient;
+      vm.patient = $rootScope.global.broadcastPatient;
       vm.patientIdentifer = vm.patient.commonIdentifiers().ampathMrsUId;
     }
     $timeout(function() {

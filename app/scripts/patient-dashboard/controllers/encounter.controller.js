@@ -34,7 +34,7 @@
     }
 
     vm.loadEncounterForm = function(EncounterModel) {
-      $rootScope.activeEncounter = EncounterModel;
+      $rootScope.global.activeEncounter = EncounterModel;
       $location.path('/encounter/' + EncounterModel.uuid() + '/patient/' +
         EncounterModel.patientUuid());
     }
@@ -89,7 +89,7 @@
     }
 
     function addLatestEncounterPerTypeToRootScope() {
-        $rootScope.latestEncounterPerType = {};
+        $rootScope.global.latestEncounterPerType = {};
 
         var latestEncounters = {};
         _.each(vm.encounterList, function(encounter){
@@ -97,7 +97,7 @@
                 latestEncounters[encounter.encounterTypeUuid()] = encounter;
             }
         });
-        $rootScope.latestEncounterPerType = latestEncounters;
+        $rootScope.global.latestEncounterPerType = latestEncounters;
     }
   }
 })();

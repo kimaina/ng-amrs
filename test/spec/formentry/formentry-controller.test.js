@@ -108,8 +108,8 @@ jshint -W098, -W117, -W030
             mockFormSchema = mockData.getMockSchema();
             console.log('mock schema', mockFormSchema);
             rootScope =  $rootScope;
-            rootScope.broadcastPatient = selectedPatient;
-            rootScope.latestEncounterPerType = {};
+            rootScope.global.broadcastPatient = selectedPatient;
+            rootScope.global.latestEncounterPerType = {};
 			controllerScope = $rootScope.$new();
             console.log('patient', controllerScope.patient);
             dialogService = $injector.get('dialogs');
@@ -486,7 +486,7 @@ jshint -W098, -W117, -W030
                 var encounterServiceStub = getEncounterServiceSaveEncounterStub(false);
 
                 //prevent test from failing
-                rootScope.previousStateParams = {};
+                rootScope.global.previousStateParams = {};
 
                 var called = false;
                 var personAttributesServiceStub = sinon.stub(PersonAttributesRestService,
@@ -513,7 +513,7 @@ jshint -W098, -W117, -W030
 
                 var encounterServiceStub = getEncounterServiceSaveEncounterStub(false);
                 //prevent test from failing
-                rootScope.previousStateParams = {};
+                rootScope.global.previousStateParams = {};
 
                 //mock personAttributesService saveUpdatePersonAttribute to return success
                 var personAttributesServiceStub = sinon.stub(PersonAttributesRestService,
@@ -541,7 +541,7 @@ jshint -W098, -W117, -W030
                 var encounterServiceStub = getEncounterServiceSaveEncounterStub(true);
 
                 //prevent test from failing
-                rootScope.previousStateParams = {};
+                rootScope.global.previousStateParams = {};
                 httpBackend.expectGET('views/main/url-selector.html').respond('');
 
                 controllerScope.submit();
@@ -561,8 +561,8 @@ jshint -W098, -W117, -W030
 
                 var encounterServiceStub = getEncounterServiceSaveEncounterStub(false);
                 //prevent test from failing
-                rootScope.previousStateParams = {};
-                
+                rootScope.global.previousStateParams = {};
+
                 //mock personAttributesService saveUpdatePersonAttribute to return success
                 var personAttributesServiceStub = sinon.stub(PersonAttributesRestService,
                 'saveUpdatePersonAttribute', function(payload, person, callback) {
@@ -713,8 +713,8 @@ jshint -W098, -W117, -W030
 
 
             rootScope =  $rootScope;
-            rootScope.broadcastPatient = selectedPatient;
-            rootScope.activeEncounter = mockEncounterFromEncountersTab;
+            rootScope.global.broadcastPatient = selectedPatient;
+            rootScope.global.activeEncounter = mockEncounterFromEncountersTab;
 			controllerScope = $rootScope.$new();
             dialogService = $injector.get('dialogs');
             $timeout = $injector.get('$timeout');

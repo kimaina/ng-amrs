@@ -35,7 +35,7 @@ function PatientRelationshipCtrl($rootScope, $scope, $stateParams, OpenmrsRestSe
       console.log("patient uuid clicked id ",patientUuid);
     OpenmrsRestService.getPatientService().getPatientByUuid({ uuid: patientUuid },
            function(data) {
-             $rootScope.broadcastPatient = data;
+             $rootScope.global.broadcastPatient = data;
              $state.go('patient', { uuid: patientUuid });
            }
       );

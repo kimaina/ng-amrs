@@ -48,7 +48,7 @@ jscs:disable disallowQuotedKeysInObjects, safeContextKeyword, requireDotNotation
        Get the selected patient and save the details in the root scope
        so that we don't do another round trip to get the patient details
        */
-      $rootScope.broadcastPatient = _.find($scope.patients, function(patient) {
+      $rootScope.global.broadcastPatient = _.find($scope.patients, function(patient) {
         if (patient.uuid() === patientUuid) {
           return patient;
         }

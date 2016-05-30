@@ -19,7 +19,7 @@
   function ViewEncounterCtrl($rootScope, $scope, $stateParams, $timeout,
     OpenmrsRestService,$uibModalInstance, items, EncounterResService) {
     $scope.patient = {};
-    $scope.patient = $rootScope.broadcastPatient;
+    $scope.patient = $rootScope.global.broadcastPatient;
     EncounterResService.getEncounterByUuid(items, function(data) {
       data.obs.sort(function(a, b) {
         var textA = a.concept.name.display.toUpperCase();

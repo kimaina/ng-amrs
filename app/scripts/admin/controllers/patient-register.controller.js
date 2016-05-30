@@ -173,7 +173,7 @@
               uuid: toParams.uuid
             },
             function(data) {
-              $rootScope.broadcastPatient = data;
+              $rootScope.global.broadcastPatient = data;
               $state.go('patient', {
                 uuid: toParams.uuid
               });

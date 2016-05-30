@@ -426,19 +426,15 @@
       });
     })
     .run(function($rootScope, $state, $location, OpenmrsRestService, OpenmrsSettings,
-      EtlRestServicesSettings, UtilService) {
+      EtlRestServicesSettings, UtilService, $cookieStore,$http) {
+      $rootScope.global = {};
+      $rootScope.global = $cookieStore.get('$global') || {};
 
       $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+        console.log('i have been hit 3')
+        $cookieStore.remove('$global');
+        $cookieStore.put('$global', $rootScope.global);
 
-        //checking if  pdf report generation  path
-        if (toState.url === '/moh-731-generate-pdf') {
-          //call renerate report
-          // console.log('preventing default');
-          $rootScope.$broadcast('generate-moh-731-pdf-report', {
-            item: {}
-          });
-          event.preventDefault(); //prevent the change  from happening
-        }
         //check whether selection of url base is required first
         var hasPersistedCurrentUrl = OpenmrsSettings.hasCoockiePersistedCurrentUrlBase() && EtlRestServicesSettings.hasCoockiePersistedCurrentUrlBase();
 
@@ -452,16 +448,24 @@
         }
 
         //check whether loginis required
-
-        var shouldLogin = toState.data !== undefined &&
-          toState.data.requireLogin && !OpenmrsRestService.getAuthService().authenticated;
-        if (shouldLogin) {
-          $state.go('login', {
-            onSuccessRout: toState,
-            onSuccessParams: toParams
-          });
-          event.preventDefault();
-          return;
+        //console.log('========VV=======',$rootScope.global);
+        if ($rootScope.global) {
+          OpenmrsRestService.getAuthService().user=$rootScope.global.currentUser;
+          OpenmrsRestService.getAuthService().authenticated=true;
+          $rootScope.$broadcast('onUserAuthenticationDetermined');
+         // console.log('===============',  OpenmrsRestService.getAuthService().authenticated)
+        } else {
+          console.log('----->',toState.data, OpenmrsRestService.getAuthService().authenticated)
+          //var shouldLogin = toState.data !== undefined &&
+          //  toState.data.requireLogin && !OpenmrsRestService.getAuthService().authenticated;
+          //if (shouldLogin) {
+          //  $state.go('login', {
+          //    onSuccessRout: toState,
+          //    onSuccessParams: toParams
+          //  });
+          //  event.preventDefault();
+          //  return;
+          //}
         }
 
         //else navigate to page
@@ -470,19 +474,19 @@
       UtilService.disableBackSpaceOnNoneInputElements();
 
       // add provision of tracking various states for easy navigation and public variables of interest
-      $rootScope.previousState;
-      $rootScope.previousStateParams;
-      $rootScope.currentState;
-      $rootScope.currentStateParams;
-      $rootScope.broadcastPatient;
-      $rootScope.activeEncounter;
-      $rootScope.cachedLocations = [];
+      $rootScope.global.previousState;
+      $rootScope.global.previousStateParams;
+      $rootScope.global.currentState;
+      $rootScope.global.currentStateParams;
+      $rootScope.global.broadcastPatient;
+      $rootScope.global.activeEncounter;
+      $rootScope.global.cachedLocations = [];
 
       $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
-        $rootScope.previousState = from.name;
-        $rootScope.currentState = to.name;
-        $rootScope.previousStateParams = fromParams;
-        $rootScope.currentStateParams = toParams;
+        $rootScope.global.previousState = from.name;
+        $rootScope.global.currentState = to.name;
+        $rootScope.global.previousStateParams = fromParams;
+        $rootScope.global.currentStateParams = toParams;
       });
 
     });

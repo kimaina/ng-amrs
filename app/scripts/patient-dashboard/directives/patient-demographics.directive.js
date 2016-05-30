@@ -27,7 +27,7 @@ jshint -W003, -W026, -W033, -W098
         */
         //handle the case for unloaded patient
 
-        if (!$rootScope.broadcastPatient.getPersonAttributes) {
+        if (!$rootScope.global.broadcastPatient.getPersonAttributes) {
             var patient = OpenmrsRestService.getPatientService().getPatientByUuid({ uuid: $stateParams.uuid },
                 function (data) {
                     $scope.patient = data;
@@ -38,7 +38,7 @@ jshint -W003, -W026, -W033, -W098
                 );
         }
         else {
-            $scope.patient = $rootScope.broadcastPatient;
+            $scope.patient = $rootScope.global.broadcastPatient;
             $scope.personAttributes = $scope.patient.getPersonAttributes();
         }
         $scope.loadPatient = loadPatient;
@@ -50,7 +50,7 @@ jshint -W003, -W026, -W033, -W098
             console.log("patient uuid clicked id ",patientUuid);
           OpenmrsRestService.getPatientService().getPatientByUuid({ uuid: patientUuid },
                  function(data) {
-                   $rootScope.broadcastPatient = data;
+                   $rootScope.global.broadcastPatient = data;
                    $state.go('patient', { uuid: patientUuid });
                  }
             );

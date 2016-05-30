@@ -32,12 +32,13 @@
           var session = new SessionModel.session(data.sessionId, data.authenticated);
           service.authenticated = session.isAuthenticated();
           service.user = data.user;
+          $rootScope.global.currentUser=  data.user;
           if (service.authenticated) {
             //find out if the user has set the default location
             UserDefaultPropertiesService.setAuthenticatedUser(CurrentUser.username);
             var userDefaultLocation = UserDefaultPropertiesService.getCurrentUserDefaultLocation();
             LocationResService.getLocations(function(results) {
-                $rootScope.cachedLocations = results;
+                $rootScope.global.cachedLocations = results;
               },
 
               function(failedError) {
@@ -57,7 +58,7 @@
             //cache forms
             var findFormsContaining = 'POC';
             FormResService.findPocForms(findFormsContaining, function(forms) {
-                $rootScope.cachedPocForms = forms;
+                $rootScope.global.cachedPocForms = forms;
               },
 
               function(error) {
@@ -100,7 +101,9 @@
       //set user credentials
       //console.log('set credentials base64 log');
       //console.log(base64.encode(CurrentUser.username + ':' + CurrentUser.password));
+      service.authenticated = true;
       $http.defaults.headers.common.Authorization = 'Basic ' + base64.encode(CurrentUser.username + ':' + CurrentUser.password);
+      $rootScope.global.authData=base64.encode(CurrentUser.username + ':' + CurrentUser.password)
 
     }
 

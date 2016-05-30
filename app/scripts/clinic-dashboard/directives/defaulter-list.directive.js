@@ -252,7 +252,7 @@ jshint -W003, -W026
             uuid: row.patient_uuid
           },
           function(data) {
-            $rootScope.broadcastPatient = data;
+            $rootScope.global.broadcastPatient = data;
             $state.go('patient', {uuid: row.patient_uuid});
           });
       }

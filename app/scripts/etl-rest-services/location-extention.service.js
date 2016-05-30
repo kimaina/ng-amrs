@@ -41,11 +41,11 @@
                         }).$promise
                             .then(function (response) {
                                 //catch the location uuid  and  location etl id to $rootScope.cachedEtlLocations
-                                if (angular.isUndefined($rootScope.cachedEtlLocations)) {
-                                    $rootScope.cachedEtlLocations = {};
+                                if (angular.isUndefined($rootScope.global.cachedEtlLocations)) {
+                                    $rootScope.global.cachedEtlLocations = {};
                                 }
                                 angular.forEach(response.result, function (value, key) {
-                                    $rootScope.cachedEtlLocations[uuid] = value;
+                                    $rootScope.global.cachedEtlLocations[uuid] = value;
                                 });
                                 /**
                                  * Dont removed Used For Testing
@@ -54,7 +54,7 @@
                                  * by  the  etl  server.This  is a  sign  of  major
                                  * error
                                  *
-                
+
                                 if(response.result.length===0){
                                     if(angular.isDefined($rootScope.dummyLocationid)){$rootScope.dummyLocationid=$rootScope.dummyLocationid+1;}else{$rootScope.dummyLocationid=101;}
                                    console.log("Loading  dummy  data Location Id",$rootScope.dummyLocationid);
@@ -81,11 +81,11 @@
             }).$promise
                 .then(function (response) {
                     //catch the location uuid  and  location etl id to $rootScope.cachedEtlLocations
-                    if (angular.isUndefined($rootScope.cachedEtlLocations)) {
-                        $rootScope.cachedEtlLocations = [];
+                    if (angular.isUndefined($rootScope.global.cachedEtlLocations)) {
+                        $rootScope.global.cachedEtlLocations = [];
                     }
                     angular.forEach(response.result, function (value, key) {
-                        $rootScope.cachedEtlLocations.push(value);
+                        $rootScope.global.cachedEtlLocations.push(value);
                     });
                     successCallback(response);
                 }).catch(function (error) {

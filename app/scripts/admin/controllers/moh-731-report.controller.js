@@ -326,8 +326,8 @@
     }
 
     $scope.$on('generate-moh-731-pdf-report', function(event, args) {
-      generateMoh731PdfReport($rootScope.selectedPdfRow.location,
-        $rootScope.selectedPdfRow)
+      generateMoh731PdfReport($rootScope.global.selectedPdfRow.location,
+        $rootScope.global.selectedPdfRow)
     });
 
     function buildTableControls() {

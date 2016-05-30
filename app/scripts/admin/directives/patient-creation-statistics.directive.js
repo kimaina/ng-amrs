@@ -194,7 +194,7 @@ jshint -W003, -W026
             */
           OpenmrsRestService.getPatientService().getPatientByUuid({ uuid: patientUuid },
                  function(data) {
-                   $rootScope.broadcastPatient = data;
+                   $rootScope.global.broadcastPatient = data;
                    $state.go('patient', { uuid: patientUuid });
                  }
             );

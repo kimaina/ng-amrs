@@ -9,7 +9,7 @@
 	'$state', 'DataEntryStatsHelpersService'];
 
 	function DataEntryStatisticsCtrl($rootScope, $scope, $stateParams, $state, DataEntryStatsHelpersService) {
-		if (_.isUndefined($rootScope.currentStateParams.patient_list) && ($scope.selectedView !== '' || _.isUndefined($scope.selectedView))) {
+		if (_.isUndefined($rootScope.global.currentStateParams.patient_list) && ($scope.selectedView !== '' || _.isUndefined($scope.selectedView))) {
 			$state.go('admin.data-entry-statistics.view', {view_id:'view1'});
 		}
 		$scope.selectedView = '';
@@ -18,8 +18,8 @@
 
 		if (!_.isNull($stateParams.view_id) && !_.isUndefined($stateParams.view_id)) {
 			$scope.selectedView = $stateParams.view_id;
-		} else if (!_.isUndefined($rootScope.previousStateParams.uuid) ||
-		!_.isUndefined($rootScope.currentStateParams.patient_list)) {
+		} else if (!_.isUndefined($rootScope.global.previousStateParams.uuid) ||
+		!_.isUndefined($rootScope.global.currentStateParams.patient_list)) {
 			console.log('got here though', DataEntryStatsHelpersService.patientList())
 			$scope.data = DataEntryStatsHelpersService.patientList();
 		}

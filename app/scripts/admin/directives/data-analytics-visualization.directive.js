@@ -54,7 +54,7 @@
       bindto: '#chart1',
       data: {
         x: 'encounter_datetime',
-        columns:[]
+        columns: []
       },
       axis: {
         x: {
@@ -71,30 +71,6 @@
       }
     };
 
-    function generateCharts(x, label, type, selectedyAxisIndicator) {
-      //define chart definition
-      $scope.chart.x = x;
-      $scope.chart.axis.x.label = label;
-      $scope.chart.axis.x.type = type;
-      //generate columns
-      var col = [];
-      var keys = Object.keys($scope.indicators[0]);
-      _.each(keys, function (key) {
-        var columnRow = [key];
-        _.each($scope.indicators, function (row) {
-          _.each(_.values(row), function (r) {
-            columnRow.push(r);
-          });
-
-        });
-        col.push(columnRow);
-      });
-      console.log('-------<',col, $scope.indicators);
-      $scope.chart.data.columns = col;
-      //create chart
-      c3.generate($scope.chart);
-
-    }
 
 
     $scope.xAxisSource = [];
@@ -133,30 +109,31 @@
     }
 
     function generateGraph() {
+      $scope.chart.data.x = $scope.selectedAxis.xAxis.name;
+      $scope.chart.axis.x.label = $scope.selectedAxis.xAxis.label;
+      $scope.chart.axis.x.type = $scope.selectedAxis.xAxis.name === 'encounter_datetime'?'category':'indexed';
+      //generate columns
+      var col = [];
+      console.log('i wanna know what is in herer', $scope.selectedAxis.yAxis);
+      //y-axis
+      _.each( $scope.selectedAxis.yAxis, function (indicator) {
+        var columnRow = [indicator.name];
+        _.each($scope.indicators, function (row) {
+          columnRow.push(row[indicator.name]);
+        });
+        col.push(columnRow);
+      });
+      //x-axis
+      var columnRow = [$scope.selectedAxis.xAxis.name];
+      _.each($scope.indicators, function (row) {
+        columnRow.push(row[$scope.selectedAxis.xAxis.name]);
+      });
+      col.push(columnRow);
+      console.log('-------<', col);
+      $scope.chart.data.columns = col;
+      //create chart
+      c3.generate($scope.chart);
 
-      intializeChartAxises();
-
-      // chartDefinition();
-      ClinicalAnalyticsService.generateChartObject($scope.indicators, $scope.hivComparative.chart,
-        $scope.hivComparative.chartDefinition);
-      $scope.selectedyAxisIndicator = '';
-      if ($scope.hivComparative.chartDefinition.length > 0) {
-        $scope.selectedyAxisIndicator = $scope.hivComparative.chartDefinition[0].name;
-
-        for (var i = 1; i < $scope.hivComparative.chartDefinition.length; ++i) {
-          $scope.selectedyAxisIndicator = $scope.selectedyAxisIndicator + ',' +
-            $scope.hivComparative.chartDefinition[i].name;
-        }
-      }
-      if ($scope.selectedxAxisIndicator === 'encounter_datetime') {
-        $scope.axisTypeDefinition = 'category';
-        generateCharts('encounter_datetime','Month', 'category', $scope.selectedyAxisIndicator);
-
-      } else {
-        $scope.axisTypeDefinition = 'indexed';
-        generateCharts('on_arvs','On Arvs', 'indexed',  $scope.selectedyAxisIndicator);
-
-      }
     }
 
     function intializeChartAxises() {

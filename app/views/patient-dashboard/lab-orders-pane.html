@@ -1,0 +1,46 @@
+<div>
+  <div class="row" >
+    <div class="col-md-4 pull-right">
+      <div class="form-group" >
+        <label for="eidServer">Select EID Server</label>
+        <select class="form-control" id="eidServer"
+                 ng-model="selectedEidServer">
+          <option ng-repeat="eid in eidServers"  value="{{eid}}">{{eid.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Order Date</th>
+        <th>Test Name</th>
+        <th>Ordered By</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="order in labOrders">
+        <td>
+          {{order.dateActivated | date:'dd/MM/yyyy'}}
+        </td>
+        <td>
+          {{order.display}}
+        </td>
+        <td>
+          {{order.orderer.display}}
+        </td>
+        <td>
+          {{}}
+        </td>
+        <td>
+          <button ng-disabled="isBusy||selectedEidServer==null" ng-click="postOrderToEid" class="btn default">
+            <span class="fa fa-save" aria-hidden="true"></span> Post Order To {{selectedEidServer.name}} EID
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

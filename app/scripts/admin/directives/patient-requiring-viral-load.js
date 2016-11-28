@@ -38,7 +38,7 @@
     $scope.isBusy = false;
     $scope.experiencedLoadingErrors = false;
     $scope.currentPage = 1;
-    $scope.reportName = 'labs-report';
+    $scope.reportName = 'patient-register-report';
     $scope.selectedLocation = $stateParams.locationuuid || ''; //state param check
     $scope.startDate = PatientRequiringViralLoadService.getStartDate();
     $scope.endDate = PatientRequiringViralLoadService.getEndDate();

@@ -106,7 +106,7 @@
 
       _.each(unsortArray,
         function(item) {
-          if (item.published === true) {
+          if (true) {
             PublishedOpenmrsForms.push(item);
           }
         });

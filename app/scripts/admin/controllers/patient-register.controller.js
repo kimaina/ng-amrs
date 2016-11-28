@@ -1,5 +1,5 @@
 /*jshint -W003, -W098, -W033 */
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -10,7 +10,7 @@
   ];
 
   function PatientRegisterCtrl($rootScope, $scope, $stateParams, EtlRestService, moment, $filter,
-    $state, OpenmrsRestService, $timeout) {
+                               $state, OpenmrsRestService, $timeout) {
 
     //Patient List Directive Properties & Methods
     var date = new Date();
@@ -20,7 +20,7 @@
     //Hiv Summary Indicators Service Properties & Methods
     $scope.reportName = 'patient-register-report';
     $scope.countBy = 'num_persons';
-    $scope.groupBy = 'groupByEncounter';
+    $scope.groupBy = 'groupByPerson';
     $scope.loadIndicators = loadIndicators;
     $scope.getIndicatorLabelByName = getIndicatorLabelByName;
 
@@ -34,7 +34,7 @@
     $scope.counter = 0;
     //This is used by the clinic dashboard
     $scope.selectedLocation = $stateParams.locationuuid || '';
-    $scope.setCountType = function(val) {
+    $scope.setCountType = function (val) {
       $scope.countBy = val;
       loadHivSummaryIndicators()
     };
@@ -55,7 +55,7 @@
       value: 'selected'
     }];
     $scope.exportDataType = $scope.exportList[1];
-    $scope.updateSelectedType = function() {
+    $scope.updateSelectedType = function () {
       var bsTable = document.getElementById('bsTable');
       var element = angular.element(bsTable);
       element.bootstrapTable('refreshOptions', {
@@ -78,7 +78,7 @@
     function loadIndicators(loadNextOffset) {
       $scope.experiencedLoadingErrors = false;
       if ($scope.isBusy === true) return;
-      if (loadNextOffset !== true)resetPaging();
+      if (loadNextOffset !== true) resetPaging();
       $scope.isBusy = true;
       if ($scope.groupBy && $scope.groupBy !== '' && $scope.reportName && $scope.reportName !== '' &&
         $scope.startDate && $scope.startDate !== '' && $scope.selectedIndicatorTags.indicatorTags &&
@@ -94,7 +94,7 @@
           moment(new Date($scope.startDate)).startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
           moment(new Date($scope.endDate)).startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSSZZ'),
           $scope.reportName, $scope.countBy, onFetchIndicatorsSuccess, onFetchIndicatorsError, $scope.groupBy,
-          locations, '', indicators, $scope.nextStartIndex, 300,$scope.startAge, $scope.endAge,  $scope.gender);
+          locations, '', indicators, $scope.nextStartIndex, 5000, $scope.startAge, $scope.endAge, $scope.gender);
       } else {
         $scope.isBusy = false;
       }
@@ -139,17 +139,62 @@
       $scope.isBusy = false;
       $scope.indicatorTags = result.result;
       //push non indicator columns
-      $scope.indicatorTags.unshift({
-        name: 'person_name'
-      }, {
-        name: 'identifiers'
-      }, {
-        name: 'encounter_date'
-      }, {
-        name: 'location'
-      }, {
-        name: 'location_uuid'
-      })
+      $scope.indicatorTags.unshift(
+        {
+          name: 'location'
+        },
+        {
+          name: 'identifiers'
+        },
+        {
+          name: 'age'
+        },
+        {
+          name: 'gender'
+        },
+        {
+          name: 'last_visit_date'
+        },
+        {
+          name: 'rtc_date'
+        },
+        {
+          name: 'art_initiation_date'
+        },
+        {
+          name: 'current_art_start_date'
+        },
+        {
+          name: 'cur_art_regimen_duration'
+        },
+        {
+          name: 'cur_arv_line'
+        },
+        {
+          name: 'cur_who_stage'
+        },
+        {
+          name: 'cur_viral_load'
+        },
+        {
+          name: 'cur_viral_load_date'
+        },
+        {
+          name: 'prev_viral_load'
+        },
+        {
+          name: 'prev_viral_load_date'
+        },
+        {
+          name: 'prev_arv_adherence'
+        },
+        {
+          name: 'cur_arv_adherence'
+        },
+        {
+          name: 'disclosure_status'
+        }
+        )
     }
 
     function onFetchIndicatorsSchemaError(error) {
@@ -158,21 +203,19 @@
     }
 
     $rootScope.$on('$stateChangeStart',
-      function(event, toState, toParams, fromState, fromParams) {
-        console.log('ToState',toState);
-        console.log('FromState',fromState);
+      function (event, toState, toParams, fromState, fromParams) {
+        console.log('ToState', toState);
+        console.log('FromState', fromState);
         if ((toState.name === 'admin.patient-register.patient' &&
-        fromState.name === 'admin.patient-register') ||
-        ((toState.name === 'admin.patient-register.patient' &&
-        fromState.name === 'clinical-dashboard.patient-register'))||
-        (toState.name === 'admin.patient-register.patient' &&
-        fromState.name === 'admin.patient-register.patient'))
-
-        {
+          fromState.name === 'admin.patient-register') ||
+          ((toState.name === 'admin.patient-register.patient' &&
+          fromState.name === 'clinical-dashboard.patient-register')) ||
+          (toState.name === 'admin.patient-register.patient' &&
+          fromState.name === 'admin.patient-register.patient')) {
           OpenmrsRestService.getPatientService().getPatientByUuid({
               uuid: toParams.uuid
             },
-            function(data) {
+            function (data) {
               $rootScope.broadcastPatient = data;
               $state.go('patient', {
                 uuid: toParams.uuid
@@ -223,8 +266,7 @@
     function buildColumns() {
       $scope.columns = [];
       _.each($scope.indicatorTags, function (header) {
-        if (header.name === 'location' || header.name === 'person_name' || header.name === 'encounter_date'
-          || header.name === 'identifiers') buildSingleColumn(header);
+      buildSingleColumn(header);
         _.each($scope.selectedIndicatorTags.indicatorTags, function (selectedIndicator) {
           if (selectedIndicator.name === header.name) {
             buildSingleColumn(header);
@@ -286,10 +328,10 @@
           },
           fixedColumns: true,
           fixedNumber: 1,
-          onPostBody:function(){
+          onPostBody: function () {
             //please make sure you calibrate results[0].style.maxHeight with relation to height (550)
             var results = document.getElementsByClassName("fixed-table-body-columns");
-            results[0].style.maxHeight='380px';
+            results[0].style.maxHeight = '380px';
           }
         }
       };
@@ -300,7 +342,7 @@
      */
     function detailFormatter(index, row) {
       var html = [];
-      _.each(row, function(value, key) {
+      _.each(row, function (value, key) {
         if (key === 'location_uuid' || key === 'state') return;
         var label = getIndicatorLabelByName(key) || key;
         label = $filter('titlecase')(label.toString().split('_').join(' '));
@@ -332,7 +374,7 @@
         return '<div class="text-center" style="height:43px!important; " ><a href="#/admin-dashboard/patient-register/patient/'
           + row.person_uuid + '"><span class="text-info text-capitalize">' + value + '  </span><a/></div>';
       return '<div class="text-center" style="height:43px!important;width:100% " ><span style="white-space: nowrap;">'
-        + valueToBooleanFormatter(value) + '</span></div>';
+        + value + '</span></div>';
     }
 
     /**
